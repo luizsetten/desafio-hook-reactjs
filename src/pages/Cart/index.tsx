@@ -52,7 +52,6 @@ const Cart = (): JSX.Element => {
   }
 
   function handleRemoveProduct(productId: number) {
-    console.log(productId)
     removeProduct(productId);
   }
 
