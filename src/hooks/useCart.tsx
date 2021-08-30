@@ -70,7 +70,9 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
   const removeProduct = (productId: number) => {
     try {
-      const newCart = cart.filter(product => product.id !== productId)
+      if(cart.findIndex(product => product.id === productId) === -1) throw new Error('Product not found');
+
+      const newCart = cart.filter(product => product.id !== productId);
       setCart(newCart);
       localStorage.setItem('@RocketShoes:cart', JSON.stringify(newCart));
     } catch {
@@ -85,7 +87,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     try {
       const productInCart = cart.findIndex(prod => prod.id === productId); 
 
-      if(amount <= 0) removeProduct(productId);
+      if(amount < 1) throw new Error(); 
 
       const {data: {amount: amountAvaliable}} = await api.get<Stock>(`/stock/${productId}`)
 
